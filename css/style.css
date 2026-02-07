@@ -1,131 +1,173 @@
 /* ======================================================
-   Cinder Beats — Warm Campfire Theme (Clean + Appealing)
-   Fixes:
-   - Proper site header (not giant empty banner)
-   - Banner looks intentional (cover + better positioning)
-   - Nav looks consistent and readable
-   - Content cards feel premium/warm, not plain
+   Cinder Beats — Warm Campfire Theme (Banner + Logo)
+   - Banner is background vibe (cover = crops, controlled)
+   - Logo is a real image element (never crops)
+   - Cleaner layout, better spacing, less “plain”
    ====================================================== */
 
-/* ---------- Reset ---------- */
+/* Reset */
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 
-body {
+:root{
+  --bg: #0c0712;
+  --text: #f6efe7;
+  --accent: #ffd28a;
+  --accent2: #ffe7c8;
+
+  --panel: rgba(255,255,255,0.045);
+  --panel2: rgba(255,255,255,0.03);
+  --border: rgba(255,255,255,0.12);
+  --border2: rgba(255,255,255,0.10);
+
+  /* Banner “camera” knob:
+     LOWER % shows more of the TOP of the image.
+     Try 10%, 15%, 20%, 25% until it looks right. */
+  --banner-y: 18%;
+
+  --shadow: rgba(0,0,0,0.55);
+}
+
+body{
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.6;
-  background: radial-gradient(1200px 700px at 50% -20%, rgba(255,140,60,0.18), rgba(12,7,18,0) 55%),
-              radial-gradient(900px 600px at 20% 10%, rgba(255,80,120,0.10), rgba(12,7,18,0) 55%),
-              #0c0712;
-  color: #f6efe7;
+  color: var(--text);
+  background:
+    radial-gradient(1100px 650px at 50% -10%, rgba(255,140,60,0.18), rgba(12,7,18,0) 55%),
+    radial-gradient(900px 600px at 20% 10%, rgba(255,80,120,0.10), rgba(12,7,18,0) 55%),
+    var(--bg);
 }
 
-/* ---------- Layout ---------- */
-header, main, footer {
+/* Page width */
+header, main, footer{
   max-width: 980px;
   margin: 0 auto;
   padding: 16px;
 }
 
-header {
+/* ---------- Header (Banner + Logo + Nav) ---------- */
+header{
   margin-top: 16px;
   border-radius: 18px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid var(--border);
 
-  /* Banner */
-  background-image:
-    linear-gradient(to bottom, rgba(12,7,18,0.15), rgba(12,7,18,0.92)),
-    url("../img/banner.jpg");
+  /* Predictable banner space */
+  min-height: 190px;
+
+  /* Banner as background */
+  background-image: url("../img/banner.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center var(--banner-y);
 
-  /* Key: shift banner DOWN so top isn't chopped */
-  background-position: center 22%;
-
-  padding: 18px 18px 14px 18px;
+  position: relative;
 }
 
-/* Site title + tagline in header */
-header .site-title {
-  margin: 0 0 6px 0;
-  font-size: 2.2rem;
-  letter-spacing: 0.4px;
-  color: #ffd28a;
-  text-shadow: 0 2px 18px rgba(0,0,0,0.65);
+/* Dark gradient overlay for readability */
+header::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(12,7,18,0.35), rgba(12,7,18,0.92));
+  pointer-events: none;
 }
 
-header .tagline {
-  margin: 0 0 14px 0;
-  color: #ffe7c8;
-  opacity: 0.95;
-  text-shadow: 0 2px 14px rgba(0,0,0,0.55);
+/* Keep header content above overlay */
+.header-inner{
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  padding: 14px;
+}
+
+/* Logo */
+.brand{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand img{
+  display: block;
+  height: 92px;        /* consistent */
+  width: auto;
+  max-width: 70vw;
+  filter: drop-shadow(0 10px 22px var(--shadow));
 }
 
 /* Nav */
-nav {
+nav{
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-nav a {
+nav a{
   text-decoration: none;
-  color: #f6efe7;
-  padding: 7px 12px;
+  color: var(--text);
+  padding: 8px 12px;
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.22);
-  background: rgba(0,0,0,0.35);
+  background: rgba(0,0,0,0.40);
+  backdrop-filter: blur(4px);
 }
 
-nav a:hover {
+nav a:hover{
   background: rgba(255,180,90,0.22);
   border-color: rgba(255,180,90,0.55);
 }
 
-/* ---------- Card-like sections ---------- */
-main, footer {
+/* ---------- Content cards ---------- */
+main, footer{
   margin-top: 14px;
   border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.045);
+  border: 1px solid var(--border2);
+  background: var(--panel);
 }
 
-main {
-  padding: 22px;
-}
-
-footer {
+main{ padding: 22px; }
+footer{
   padding: 22px 22px 30px 22px;
-  background: rgba(255,255,255,0.03);
+  background: var(--panel2);
 }
 
-/* Headings */
-h1, h2, h3 { margin: 0; }
-main h1 {
+/* Typography */
+h1, h2, h3{ margin: 0; }
+
+main h1{
   margin: 0 0 10px 0;
-  color: #ffd28a;
+  color: var(--accent);
   font-size: 1.9rem;
 }
-main h2 {
+
+main h2{
   margin: 20px 0 10px 0;
-  color: #ffd28a;
+  color: var(--accent);
   font-size: 1.35rem;
 }
-main p { margin: 0 0 12px 0; }
 
-.note {
+main p{ margin: 0 0 12px 0; }
+
+.note{
   opacity: 0.85;
   font-size: 0.95em;
 }
 
 /* Links */
-a { color: #ffd28a; }
-a:hover { text-decoration: underline; }
+a{ color: var(--accent); }
+a:hover{ text-decoration: underline; }
 
-/* Products */
-.product {
+/* Product blocks (store page) */
+.product{
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 16px;
   padding: 16px;
@@ -133,20 +175,20 @@ a:hover { text-decoration: underline; }
   background: rgba(0,0,0,0.22);
 }
 
-/* Dividers */
-hr {
+/* Divider */
+hr{
   border: none;
   border-top: 1px solid rgba(255,255,255,0.14);
   margin: 18px 0;
 }
 
 /* Footer socials */
-.site-footer h3 {
+.site-footer h3{
   margin: 0 0 14px 0;
-  color: #ffe0b0;
+  color: var(--accent2);
 }
 
-.social-links a {
+.social-links a{
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -154,13 +196,20 @@ hr {
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.20);
   background: rgba(0,0,0,0.30);
-  color: #f6efe7;
+  color: var(--text);
   text-decoration: none;
 }
 
-.social-links a:hover {
+.social-links a:hover{
   background: rgba(255,180,90,0.22);
   border-color: rgba(255,180,90,0.55);
 }
 
-.social-links svg { fill: currentColor; }
+.social-links svg{ fill: currentColor; }
+
+/* Mobile tweaks */
+@media (max-width: 640px){
+  header{ min-height: 210px; }
+  .brand img{ height: 78px; }
+  nav a{ padding: 8px 10px; }
+}
