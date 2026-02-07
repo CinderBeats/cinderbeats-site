@@ -1,8 +1,8 @@
 /* ======================================================
-   Cinder Beats — Warm Campfire Theme (Banner + Logo)
-   - Banner is background vibe (cover = crops, controlled)
-   - Logo is a real image element (never crops)
-   - Cleaner layout, better spacing, less “plain”
+   Cinder Beats — Warm Campfire Theme (NO BANNER FOR NOW)
+   - Clean, readable header (no image cropping drama)
+   - Warm colors + soft panels
+   - Logo-safe (won’t crop when you add it later)
    ====================================================== */
 
 /* Reset */
@@ -12,18 +12,16 @@ html, body { height: 100%; }
 :root{
   --bg: #0c0712;
   --text: #f6efe7;
+  --muted: rgba(246,239,231,0.85);
+
   --accent: #ffd28a;
   --accent2: #ffe7c8;
 
   --panel: rgba(255,255,255,0.045);
   --panel2: rgba(255,255,255,0.03);
+
   --border: rgba(255,255,255,0.12);
   --border2: rgba(255,255,255,0.10);
-
-  /* Banner “camera” knob:
-     LOWER % shows more of the TOP of the image.
-     Try 10%, 15%, 20%, 25% until it looks right. */
-  --banner-y: 18%;
 
   --shadow: rgba(0,0,0,0.55);
 }
@@ -34,8 +32,8 @@ body{
   line-height: 1.6;
   color: var(--text);
   background:
-    radial-gradient(1100px 650px at 50% -10%, rgba(255,140,60,0.18), rgba(12,7,18,0) 55%),
-    radial-gradient(900px 600px at 20% 10%, rgba(255,80,120,0.10), rgba(12,7,18,0) 55%),
+    radial-gradient(1100px 650px at 50% -10%, rgba(255,140,60,0.16), rgba(12,7,18,0) 55%),
+    radial-gradient(900px 600px at 20% 10%, rgba(255,80,120,0.09), rgba(12,7,18,0) 55%),
     var(--bg);
 }
 
@@ -46,62 +44,66 @@ header, main, footer{
   padding: 16px;
 }
 
-/* ---------- Header (Banner + Logo + Nav) ---------- */
+/* ---------- Header (simple + warm) ---------- */
 header{
   margin-top: 16px;
   border-radius: 18px;
-  overflow: hidden;
   border: 1px solid var(--border);
-
-  /* Predictable banner space */
-  min-height: 190px;
-
-  /* Banner as background */
-  background-image: url("../img/banner.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center var(--banner-y);
-
-  position: relative;
-}
-
-/* Dark gradient overlay for readability */
-header::after{
-  content: "";
-  position: absolute;
-  inset: 0;
   background:
-    linear-gradient(to bottom, rgba(12,7,18,0.35), rgba(12,7,18,0.92));
-  pointer-events: none;
+    linear-gradient(180deg, rgba(255,210,138,0.10), rgba(255,255,255,0.02)),
+    rgba(0,0,0,0.25);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+
+  /* IMPORTANT: no cropping */
+  overflow: visible;
 }
 
-/* Keep header content above overlay */
+/* Header inner layout */
 .header-inner{
-  position: relative;
-  z-index: 1;
-
   display: flex;
   gap: 16px;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
 
-  padding: 14px;
+  padding: 12px;
 }
 
-/* Logo */
+/* Brand */
 .brand{
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
+/* Logo image (when you have it) */
 .brand img{
   display: block;
-  height: 92px;        /* consistent */
+  height: 74px;
   width: auto;
   max-width: 70vw;
-  filter: drop-shadow(0 10px 22px var(--shadow));
+  filter: drop-shadow(0 10px 20px var(--shadow));
+}
+
+/* If logo image is missing, show text fallback nicely */
+.brand .brand-text{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.brand .site-title{
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 0.4px;
+  color: var(--accent);
+  text-shadow: 0 2px 18px rgba(0,0,0,0.45);
+}
+
+.brand .tagline{
+  margin: 0;
+  color: var(--accent2);
+  opacity: 0.95;
 }
 
 /* Nav */
@@ -109,6 +111,7 @@ nav{
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  justify-content: flex-start;
 }
 
 nav a{
@@ -117,12 +120,11 @@ nav a{
   padding: 8px 12px;
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.22);
-  background: rgba(0,0,0,0.40);
-  backdrop-filter: blur(4px);
+  background: rgba(0,0,0,0.28);
 }
 
 nav a:hover{
-  background: rgba(255,180,90,0.22);
+  background: rgba(255,180,90,0.18);
   border-color: rgba(255,180,90,0.55);
 }
 
@@ -160,6 +162,7 @@ main p{ margin: 0 0 12px 0; }
 .note{
   opacity: 0.85;
   font-size: 0.95em;
+  color: var(--muted);
 }
 
 /* Links */
@@ -172,7 +175,7 @@ a:hover{ text-decoration: underline; }
   border-radius: 16px;
   padding: 16px;
   margin: 14px 0;
-  background: rgba(0,0,0,0.22);
+  background: rgba(0,0,0,0.18);
 }
 
 /* Divider */
@@ -195,13 +198,13 @@ hr{
   padding: 9px 12px;
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.20);
-  background: rgba(0,0,0,0.30);
+  background: rgba(0,0,0,0.22);
   color: var(--text);
   text-decoration: none;
 }
 
 .social-links a:hover{
-  background: rgba(255,180,90,0.22);
+  background: rgba(255,180,90,0.18);
   border-color: rgba(255,180,90,0.55);
 }
 
@@ -209,7 +212,6 @@ hr{
 
 /* Mobile tweaks */
 @media (max-width: 640px){
-  header{ min-height: 210px; }
-  .brand img{ height: 78px; }
+  .brand img{ height: 64px; }
   nav a{ padding: 8px 10px; }
 }
