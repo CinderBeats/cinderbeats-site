@@ -1,15 +1,11 @@
 /* ======================================================
-   Cinder Beats — Warm Campfire Theme (Banner Fixed)
+   Cinder Beats — Warm Campfire Theme (NO BANNER CROPPING)
+   Banner uses background-size: contain (no crop)
    ====================================================== */
 
 /* ---------- Reset ---------- */
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
-}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
 
 body {
   margin: 0;
@@ -20,9 +16,7 @@ body {
 }
 
 /* ---------- Page Width ---------- */
-header,
-main,
-footer {
+header, main, footer {
   max-width: 980px;
   margin: 0 auto;
   padding: 16px;
@@ -36,21 +30,18 @@ header {
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.12);
 
-  /* Banner */
+  /* Banner image (NO CROP) */
   background-image:
-    linear-gradient(
-      to bottom,
-      rgba(12,7,18,0.05),
-      rgba(12,7,18,0.92)
-    ),
+    linear-gradient(to bottom, rgba(12,7,18,0.10), rgba(12,7,18,0.92)),
     url("../img/banner.jpg");
 
-  background-size: cover;
-  background-position: center top; /* FIXES TOP CROP */
   background-repeat: no-repeat;
+  background-size: contain;         /* KEY: no cropping */
+  background-position: center top;  /* keep top visible */
 
-  min-height: 190px;             /* PREVENTS CROPPING */
-  padding: 26px 18px 18px 18px;
+  background-color: #120a1a;        /* fills empty space if image doesn't cover */
+  min-height: 260px;               /* makes the banner feel like a banner */
+  padding: 28px 18px 18px 18px;
 }
 
 /* ---------- Title & Tagline ---------- */
@@ -111,9 +102,7 @@ h3 {
 }
 
 /* ---------- Text ---------- */
-p {
-  margin-top: 0;
-}
+p { margin-top: 0; }
 
 .note {
   opacity: 0.85;
@@ -121,13 +110,8 @@ p {
 }
 
 /* ---------- Links ---------- */
-a {
-  color: #ffd28a;
-}
-
-a:hover {
-  text-decoration: underline;
-}
+a { color: #ffd28a; }
+a:hover { text-decoration: underline; }
 
 /* ---------- Footer ---------- */
 footer {
@@ -138,9 +122,7 @@ footer {
   background: rgba(255,255,255,0.03);
 }
 
-.site-footer h3 {
-  margin-bottom: 14px;
-}
+.site-footer h3 { margin-bottom: 14px; }
 
 /* ---------- Social Links ---------- */
 .social-links a {
@@ -160,9 +142,7 @@ footer {
   border-color: rgba(255,180,90,0.6);
 }
 
-.social-links svg {
-  fill: currentColor;
-}
+.social-links svg { fill: currentColor; }
 
 /* ---------- Utility ---------- */
 hr {
