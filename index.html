@@ -1,108 +1,397 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Cinder Beats</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CinderBeats — Dead by Daylight music &amp; streams</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Literata:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#14100d;
+    --fog:#1c1610;
+    --fog2:#241c15;
+    --ember:#e2572b;
+    --ember-deep:#9c3b1c;
+    --ash:#ece2d3;
+    --ash-dim:#9c9184;
+    --line:#382b1f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--ash);
+    font-family:'Literata',serif;
+    font-size:17px;
+    line-height:1.7;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 32px;}
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ember);
+  }
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;color:var(--ash);}
+
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    background:rgba(20,16,13,0.82);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    max-width:960px;margin:0 auto;padding:18px 32px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:20px;letter-spacing:0.01em;}
+  .brand em{color:var(--ember);font-style:italic;}
+  .navlinks{
+    display:flex;gap:28px;
+    font-family:'Space Mono',monospace;
+    font-size:12px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ash-dim);
+  }
+  .navlinks a:hover{color:var(--ember);}
+  @media(max-width:640px){.navlinks{display:none;}}
+
+  .hero{
+    position:relative;
+    min-height:92vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;
+    overflow:hidden;
+    padding:120px 32px 80px;
+  }
+  .glow{
+    position:absolute;
+    top:50%;left:50%;
+    width:900px;height:900px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(226,87,43,0.22) 0%, rgba(226,87,43,0.08) 35%, transparent 68%);
+    animation:pulse 7s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:0.7;transform:translate(-50%,-50%) scale(0.94);}
+    50%{opacity:1;transform:translate(-50%,-50%) scale(1.05);}
+  }
+  .ember-particle{
+    position:absolute;bottom:8%;
+    width:4px;height:4px;border-radius:50%;
+    background:var(--ember);
+    box-shadow:0 0 6px 1px rgba(226,87,43,0.7);
+    animation:rise 9s linear infinite;
+    opacity:0;
+  }
+  @keyframes rise{
+    0%{opacity:0;transform:translateY(0) translateX(0);}
+    10%{opacity:0.9;}
+    90%{opacity:0.4;}
+    100%{opacity:0;transform:translateY(-70vh) translateX(20px);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .glow,.ember-particle{animation:none;}
+  }
+
+  .hero-inner{position:relative;z-index:2;max-width:680px;}
+  .hero h1{
+    font-size:clamp(2.4rem,6.4vw,4.4rem);
+    line-height:1.08;
+    margin:18px 0 20px;
+  }
+  .hero h1 span{color:var(--ember);font-style:italic;font-weight:500;}
+  .hero p.sub{
+    color:var(--ash-dim);
+    font-size:18px;
+    max-width:520px;
+    margin:0 auto 34px;
+  }
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .btn{
+    font-family:'Space Mono',monospace;
+    font-size:13px;letter-spacing:0.06em;text-transform:uppercase;
+    padding:14px 24px;
+    border-radius:2px;
+    border:1px solid var(--ember);
+    transition:all 0.2s ease;
+    display:inline-block;
+  }
+  .btn-fill{background:var(--ember);color:var(--void);}
+  .btn-fill:hover{background:var(--ember-deep);border-color:var(--ember-deep);}
+  .btn-outline{color:var(--ash);border-color:var(--line);}
+  .btn-outline:hover{border-color:var(--ember);color:var(--ember);}
+
+  .schedule-note{
+    margin-top:28px;
+    font-family:'Space Mono',monospace;
+    font-size:12px;color:var(--ash-dim);opacity:0.7;font-style:italic;
+  }
+
+  .fogline{height:90px;background:linear-gradient(to bottom, transparent, rgba(226,87,43,0.05), transparent);filter:blur(6px);}
+
+  section{padding:70px 0;}
+  section .wrap{border-top:1px solid var(--line);padding-top:60px;}
+  .hero + .fogline + section .wrap{border-top:none;}
+
+  .section-head{margin-bottom:36px;max-width:560px;}
+  .section-head h2{font-size:clamp(1.7rem,3.4vw,2.3rem);margin-top:8px;}
+  .section-head p{color:var(--ash-dim);margin-top:12px;}
+
+  .about p{max-width:640px;color:var(--ash-dim);font-size:18px;}
+
+  .release{
+    display:grid;
+    grid-template-columns:70px 1fr auto;
+    gap:20px;
+    align-items:baseline;
+    padding:22px 0;
+    border-top:1px solid var(--line);
+  }
+  .release:first-of-type{border-top:1px solid var(--line);}
+  .release .year{font-family:'Space Mono',monospace;color:var(--ash-dim);font-size:14px;}
+  .release .title{font-family:'Fraunces',serif;font-size:22px;color:var(--ash);}
+  .release .title:hover{color:var(--ember);}
+  .release .tracks{
+    margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;
+  }
+  .chip{
+    font-family:'Space Mono',monospace;
+    font-size:11px;letter-spacing:0.03em;
+    color:var(--ash-dim);
+    border:1px solid var(--line);
+    padding:4px 10px;border-radius:999px;
+  }
+  .release .listen{
+    font-family:'Space Mono',monospace;font-size:12px;
+    color:var(--ember);white-space:nowrap;align-self:start;
+  }
+  @media(max-width:600px){
+    .release{grid-template-columns:1fr;gap:6px;}
+    .release .listen{margin-top:6px;}
+  }
+
+  .video-block{
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:20px;
+  }
+  .video-block p{color:var(--ash-dim);max-width:480px;}
+
+  .community-panel{
+    background:var(--fog2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:48px;
+    text-align:center;
+  }
+  .community-panel h2{margin-bottom:14px;}
+  .community-panel p{color:var(--ash-dim);max-width:480px;margin:0 auto 26px;}
+
+  .support-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media(max-width:640px){.support-grid{grid-template-columns:1fr;}}
+  .support-card{
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:32px;
+    transition:border-color 0.2s ease;
+  }
+  .support-card:hover{border-color:var(--ember-deep);}
+  .support-card h3{font-size:20px;margin-bottom:12px;}
+  .support-card p{color:var(--ash-dim);font-size:15px;margin-bottom:20px;}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:44px 0 60px;
+  }
+  .foot-row{
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:18px;
+  }
+  .foot-links{
+    display:flex;gap:18px;flex-wrap:wrap;
+    font-family:'Space Mono',monospace;
+    font-size:12px;letter-spacing:0.05em;text-transform:uppercase;
+    color:var(--ash-dim);
+  }
+  .foot-links a:hover{color:var(--ember);}
+  .foot-note{font-family:'Space Mono',monospace;font-size:11px;color:var(--ash-dim);opacity:0.6;margin-top:20px;}
+</style>
 </head>
 <body>
 
 <header>
-  <h1>Cinder Beats</h1>
-  <p class="tagline">Dead by Daylight • Music • Kindness • Community</p>
-
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="music.html">Music</a>
-    <a href="videos.html">Videos</a>
-    <a href="community.html">Community</a>
-    <a href="vip.html">VIP</a>
-    <a href="store.html">Store</a>
-    <a href="login.html">VIP Access</a>
-  </nav>
+  <div class="nav">
+    <div class="brand">Cinder<em>Beats</em></div>
+    <nav class="navlinks">
+      <a href="#music">Music</a>
+      <a href="#videos">Videos</a>
+      <a href="#community">Community</a>
+      <a href="#support">Support</a>
+    </nav>
+  </div>
 </header>
 
-<main>
-  <h2>Welcome to the Campfire</h2>
-  <p>
-    Stream vibes, lyric-driven music, and a community built on kindness.
-  </p>
+<section class="hero">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="ember-particle" style="left:22%;animation-delay:0s;"></div>
+  <div class="ember-particle" style="left:38%;animation-delay:1.8s;"></div>
+  <div class="ember-particle" style="left:54%;animation-delay:3.4s;"></div>
+  <div class="ember-particle" style="left:67%;animation-delay:0.9s;"></div>
+  <div class="ember-particle" style="left:78%;animation-delay:4.6s;"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Twitch &middot; Dead by Daylight &middot; Original music</div>
+    <h1>Welcome to <span>the campfire.</span></h1>
+    <p class="sub">Lyric-driven Dead by Daylight music, live streams, and a community built on kindness.</p>
+    <div class="cta-row">
+      <a class="btn btn-fill" href="https://twitch.tv/CinderBeats" target="_blank" rel="noopener">Watch live on Twitch</a>
+      <a class="btn btn-outline" href="https://open.spotify.com/artist/2ATdQIPi5VFweWSLgd8oRh" target="_blank" rel="noopener">Listen on Spotify</a>
+    </div>
+    <div class="schedule-note">Live Thu&ndash;Sun, 8&ndash;9 PM to 4&ndash;5 AM ET</div>
+  </div>
+</section>
 
-  <p>
-    <a href="vip.html">Join VIP</a> to support the music and unlock VIP perks through Discord.
-  </p>
+<div class="fogline"></div>
 
-  <p>
-    Looking for merch or digital drops? Visit the <a href="store.html">Store</a>.
-  </p>
+<section class="about">
+  <div class="wrap">
+    <p>CinderBeats streams Dead by Daylight and writes lyric-driven songs about its killers, survivors, and the strange comfort of the fog. Five albums in, the music is still built the same way the streams are — around kindness, community, and a good scary story.</p>
+  </div>
+</section>
 
-  <p class="note">
-    VIP verification is handled manually via Discord for now.
-    See <a href="login.html">VIP Access</a> for steps.
-  </p>
-</main>
+<section id="music">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The music</div>
+      <h2>Songs from the fog</h2>
+      <p>Five albums, released as the story kept going.</p>
+    </div>
 
-<footer class="site-footer">
-  <hr>
-  <h3>Find Cinder Beats</h3>
+    <div class="release">
+      <div class="year">2026</div>
+      <div>
+        <a class="title" href="https://open.spotify.com/album/0GFD8L6cecfrnC5mBIGych" target="_blank" rel="noopener">Running Shoes</a>
+        <div class="tracks">
+          <span class="chip">Running Shoes</span>
+          <span class="chip">Drop In My DM</span>
+          <span class="chip">After Midnight</span>
+        </div>
+      </div>
+      <a class="listen" href="https://open.spotify.com/album/0GFD8L6cecfrnC5mBIGych" target="_blank" rel="noopener">Listen &#8599;</a>
+    </div>
 
-  <div class="social-links" style="display:flex; flex-wrap:wrap; gap:12px; align-items:center;">
-    <!-- Twitch -->
-    <a href="https://twitch.tv/CinderBeats" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4 2h18v12l-6 6h-5l-3 3H6v-3H4V2zm2 2v14h2v3l3-3h6l4-4V4H6zm11 3v5h-2V7h2zm-5 0v5h-2V7h2z"></path>
-      </svg>
-      <span>Twitch</span>
-    </a>
+    <div class="release">
+      <div class="year">2026</div>
+      <div>
+        <a class="title" href="https://open.spotify.com/album/2Fb6qwWBQ7QEvtJYoD44dy" target="_blank" rel="noopener">Survive with Me</a>
+        <div class="tracks">
+          <span class="chip">Lucky Star</span>
+          <span class="chip">Kites in the Fog</span>
+          <span class="chip">Here Comes TROUBLE</span>
+        </div>
+      </div>
+      <a class="listen" href="https://open.spotify.com/album/2Fb6qwWBQ7QEvtJYoD44dy" target="_blank" rel="noopener">Listen &#8599;</a>
+    </div>
 
-    <!-- YouTube -->
-    <a href="https://www.youtube.com/@CinderBeats" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.6 12 4.6 12 4.6s-5.7 0-7.5.5a3 3 0 0 0-2.1 2.1A31.6 31.6 0 0 0 2 12a31.6 31.6 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.8.5 7.5.5 7.5.5s5.7 0 7.5-.5a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 22 12a31.6 31.6 0 0 0-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"></path>
-      </svg>
-      <span>YouTube</span>
-    </a>
+    <div class="release">
+      <div class="year">2025</div>
+      <div>
+        <a class="title" href="https://open.spotify.com/album/3a066DUyapn1pC1dtp0vf6" target="_blank" rel="noopener">Killers Be Killin'</a>
+        <div class="tracks">
+          <span class="chip">Trickster Lullaby</span>
+          <span class="chip">This is My Nightmare</span>
+          <span class="chip">Hidey-Ho</span>
+        </div>
+      </div>
+      <a class="listen" href="https://open.spotify.com/album/3a066DUyapn1pC1dtp0vf6" target="_blank" rel="noopener">Listen &#8599;</a>
+    </div>
 
-    <!-- Spotify -->
-    <a href="https://open.spotify.com/artist/2ATdQIPi5VFweWSLgd8oRh?si=e9KLLW-pQYi5Hf0CnfnSUg" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.6 14.5a.8.8 0 0 1-1.1.3c-3-1.8-6.8-2.2-11.1-1.2a.8.8 0 0 1-.4-1.6c4.7-1.1 8.9-.6 12.3 1.4.4.3.5.8.3 1.1zm1.1-2.6a1 1 0 0 1-1.4.3c-3.4-2-8.6-2.6-12.6-1.4a1 1 0 1 1-.6-1.9c4.6-1.4 10.3-.7 14.2 1.6.5.3.6 1 .4 1.4zm.1-2.8c-4-2.4-10.6-2.6-14.4-1.4a1.2 1.2 0 0 1-.7-2.3c4.4-1.3 11.7-1 16.4 1.7a1.2 1.2 0 1 1-1.3 2z"></path>
-      </svg>
-      <span>Spotify</span>
-    </a>
+    <div class="release">
+      <div class="year">2025</div>
+      <div>
+        <a class="title" href="https://open.spotify.com/album/3H00JIzXssVFLtbEDLm24A" target="_blank" rel="noopener">Forever in the Fog</a>
+      </div>
+      <a class="listen" href="https://open.spotify.com/album/3H00JIzXssVFLtbEDLm24A" target="_blank" rel="noopener">Listen &#8599;</a>
+    </div>
 
-    <!-- Discord -->
-    <a href="https://discord.com/invite/2YxYYktH9E" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M20 4a16 16 0 0 0-4-1l-.5 1a13 13 0 0 0-3-.4 13 13 0 0 0-3 .4L9 3a16 16 0 0 0-4 1C3.4 6.6 2.7 9.2 3 11.8A16 16 0 0 0 8 19l1.3-1.6a10 10 0 0 1-1.6-.8l.4-.3a12 12 0 0 0 8 0l.4.3c-.5.3-1 .6-1.6.8L16 19a16 16 0 0 0 5-7.2c.3-2.6-.4-5.2-1-7.8zM9.3 13.5c-.7 0-1.2-.7-1.2-1.5s.5-1.5 1.2-1.5 1.2.7 1.2 1.5-.5 1.5-1.2 1.5zm5.4 0c-.7 0-1.2-.7-1.2-1.5s.5-1.5 1.2-1.5 1.2.7 1.2 1.5-.5 1.5-1.2 1.5z"></path>
-      </svg>
-      <span>Discord</span>
-    </a>
+    <div class="release">
+      <div class="year">2024</div>
+      <div>
+        <a class="title" href="https://open.spotify.com/album/5CppXGzs8GqWm7X2fduiEW" target="_blank" rel="noopener">Into the Darkness</a>
+        <div class="tracks">
+          <span class="chip">Spellbound</span>
+          <span class="chip">Let Me Love You, Rin</span>
+          <span class="chip">Be My Bad Doggie</span>
+        </div>
+      </div>
+      <a class="listen" href="https://open.spotify.com/album/5CppXGzs8GqWm7X2fduiEW" target="_blank" rel="noopener">Listen &#8599;</a>
+    </div>
+  </div>
+</section>
 
-    <!-- Instagram -->
-    <a href="https://www.instagram.com/cinderbeatsttv" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.5-.9a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
-      </svg>
-      <span>Instagram</span>
-    </a>
+<section id="videos">
+  <div class="wrap">
+    <div class="video-block">
+      <div>
+        <div class="eyebrow">Watch</div>
+        <h2>Stream highlights &amp; song videos</h2>
+        <p>Chase clips, character breakdowns, and behind-the-song stories live on the channel.</p>
+      </div>
+      <a class="btn btn-outline" href="https://www.youtube.com/@CinderBeats" target="_blank" rel="noopener">Open YouTube</a>
+    </div>
+  </div>
+</section>
 
-    <!-- X -->
-    <a href="https://x.com/CinderBeats" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M18.9 2H22l-6.8 7.8L23 22h-6.3l-5-6.2L6.3 22H3l7.3-8.4L1 2h6.5l4.6 5.6L18.9 2zm-1.1 18h1.8L6.9 3.9H5L17.8 20z"></path>
-      </svg>
-      <span>X</span>
-    </a>
+<section id="community">
+  <div class="wrap">
+    <div class="community-panel">
+      <div class="eyebrow">The circle</div>
+      <h2>Kindness is the whole point</h2>
+      <p>A Discord for people who like their horror funny, their community warm, and their build discussions unhinged.</p>
+      <a class="btn btn-fill" href="https://discord.com/invite/2YxYYktH9E" target="_blank" rel="noopener">Join the Discord</a>
+    </div>
+  </div>
+</section>
 
-    <!-- Facebook -->
-    <a href="https://www.facebook.com/cinderbeats" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M13 22v-8h3l1-4h-4V7.5c0-1 .3-1.5 1.6-1.5H17V2.1c-.7-.1-2-.1-3.4-.1C10.9 2 9 3.6 9 6.9V10H6v4h3v8h4z"></path>
-      </svg>
-      <span>Facebook</span>
-    </a>
+<section id="support">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Keep the fire going</div>
+      <h2>Support the music</h2>
+    </div>
+    <div class="support-grid">
+      <div class="support-card">
+        <h3>VIP</h3>
+        <p>Funds new releases, stream upgrades, and community events. Verified manually via Discord.</p>
+        <a class="btn btn-outline" href="https://cinderbeats.com/vip.html" target="_blank" rel="noopener">Join VIP</a>
+      </div>
+      <div class="support-card">
+        <h3>Store</h3>
+        <p>Merch and digital drops, restocked as new songs and seasons roll out.</p>
+        <a class="btn btn-outline" href="https://cinderbeats.com/store.html" target="_blank" rel="noopener">Visit store</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="brand" style="font-size:16px;">Cinder<em>Beats</em></div>
+      <div class="foot-links">
+        <a href="https://twitch.tv/CinderBeats" target="_blank" rel="noopener">Twitch</a>
+        <a href="https://www.youtube.com/@CinderBeats" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://open.spotify.com/artist/2ATdQIPi5VFweWSLgd8oRh" target="_blank" rel="noopener">Spotify</a>
+        <a href="https://discord.com/invite/2YxYYktH9E" target="_blank" rel="noopener">Discord</a>
+        <a href="https://www.instagram.com/cinderbeatsttv" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://x.com/CinderBeats" target="_blank" rel="noopener">X</a>
+        <a href="https://www.facebook.com/cinderbeats" target="_blank" rel="noopener">Facebook</a>
+      </div>
+    </div>
+    <div class="foot-note">&copy; 2026 CinderBeats. Kindness is the whole point.</div>
   </div>
 </footer>
 
