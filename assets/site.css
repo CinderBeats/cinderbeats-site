@@ -89,3 +89,4 @@ form.suggest select,form.suggest input,form.suggest textarea{width:100%;backgrou
 main.page{padding:50px 0}
 .follow .more{display:none;cursor:pointer;color:var(--ash)}
 @media(max-width:700px){.follow .wrap{gap:6px;padding-top:6px;padding-bottom:6px}.follow .lbl{width:100%;text-align:center;margin:0}.follow .soc:nth-of-type(n+4){display:none}.follow .wrap.all .soc{display:inline-flex}.follow .more{display:inline-flex}.follow .wrap.all .more{display:none}.hero{padding-top:40px}.hero.photo{min-height:auto;padding-bottom:calc(56.25vw + 40px)}.hero .sub{font-size:17px}}
+.soc[href*="kick.com"] svg{fill:#53FC18}
