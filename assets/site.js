@@ -1,0 +1,2 @@
+(function(){setTimeout(function(){document.querySelectorAll(".reveal").forEach(function(e){e.classList.add("in")})},1200);var io='IntersectionObserver' in window?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12}):null;
+document.querySelectorAll('.reveal').forEach(function(el){io?io.observe(el):el.classList.add('in')});})();
