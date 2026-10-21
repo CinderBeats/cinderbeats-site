@@ -87,3 +87,5 @@ form.suggest select,form.suggest input,form.suggest textarea{width:100%;backgrou
 .product{background:linear-gradient(160deg,var(--fog2),var(--fog));border:1px solid var(--line);border-radius:18px;padding:26px;margin:20px 0}
 .product ul,.product ol{margin:10px 0 10px 22px}.product a{color:var(--ember2);text-decoration:underline}
 main.page{padding:50px 0}
+.follow .more{display:none;cursor:pointer;color:var(--ash)}
+@media(max-width:700px){.follow .wrap{gap:6px;padding-top:6px;padding-bottom:6px}.follow .lbl{width:100%;text-align:center;margin:0}.follow .soc:nth-of-type(n+4){display:none}.follow .wrap.all .soc{display:inline-flex}.follow .more{display:inline-flex}.follow .wrap.all .more{display:none}.hero{padding-top:40px}.hero.photo{min-height:auto;padding-bottom:calc(56.25vw + 40px)}.hero .sub{font-size:17px}}
