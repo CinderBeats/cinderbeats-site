@@ -112,3 +112,5 @@ main.page{padding:50px 0}
 .lb-close:hover,.lb-close:focus-visible{border-color:var(--ember);color:var(--ember2);outline:none}
 .lb-help{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);padding:10px 16px 16px;text-align:center}
 body.lb-open{overflow:hidden}
+/* "campfire" keeps the surrounding font; only the color changes */
+.cf,.hero h1 span.cf{font:inherit;font-style:inherit;font-weight:inherit;letter-spacing:inherit;background:none;-webkit-background-clip:border-box;background-clip:border-box;-webkit-text-fill-color:currentColor;color:var(--ember)}
