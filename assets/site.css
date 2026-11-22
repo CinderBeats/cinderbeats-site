@@ -150,3 +150,7 @@ body.lb-open{overflow:hidden}
 .cart-toast.show{opacity:1;transform:translate(-50%,0)}
 body.cart-open{overflow:hidden}
 @media(max-width:860px){.site-header .bar{position:relative}}
+/* shop closed */
+html[data-shop="closed"] .cart-btn{display:none}
+.shop-empty{max-width:640px;margin:0 auto;text-align:center;background:linear-gradient(160deg,var(--fog2),var(--fog));border:1px solid var(--line);border-radius:18px;padding:44px 28px;box-shadow:0 0 40px rgba(255,106,43,.12)}
+.shop-empty .se-ic{font-size:40px}.shop-empty h2{font-size:clamp(26px,4vw,34px);margin:10px 0 8px}.shop-empty p{color:var(--dim)}

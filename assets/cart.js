@@ -9,6 +9,7 @@
   };
   var BUSY='Checkout is busy, try Buy now.';
   var drawer=document.getElementById('cart-drawer'), overlay=document.querySelector('.cart-overlay'), btn=document.querySelector('.cart-btn');
+  if(document.documentElement.getAttribute('data-shop')==='closed'){ try{ localStorage.removeItem(KEY); }catch(e){} return; } /* shop closed: no stale checkouts */
   if(!drawer||!btn) return;
   var linesEl=drawer.querySelector('.cd-lines'), emptyEl=drawer.querySelector('.cd-empty'), footEl=drawer.querySelector('.cd-foot'),
       subEl=drawer.querySelector('.cd-subtotal'), errEl=drawer.querySelector('.cd-error'), coBtn=drawer.querySelector('.cd-checkout'),
