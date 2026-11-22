@@ -1,92 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Store – Cinder Beats</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store — CinderBeats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Literata:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#14100d;
+    --fog:#1c1610;
+    --fog2:#241c15;
+    --ember:#e2572b;
+    --ember-deep:#9c3b1c;
+    --ash:#ece2d3;
+    --ash-dim:#9c9184;
+    --line:#382b1f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--ash);
+    font-family:'Literata',serif;
+    font-size:17px;
+    line-height:1.7;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 32px;}
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ember);
+  }
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;color:var(--ash);}
+
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    background:rgba(20,16,13,0.82);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    max-width:960px;margin:0 auto;padding:18px 32px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:20px;letter-spacing:0.01em;}
+  .brand em{color:var(--ember);font-style:italic;}
+  .navlinks{
+    display:flex;gap:28px;
+    font-family:'Space Mono',monospace;
+    font-size:12px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ash-dim);
+  }
+  .navlinks a:hover,
+  .navlinks a[aria-current="page"]{color:var(--ember);}
+  @media(max-width:640px){.navlinks{display:none;}}
+
+  .btn{
+    font-family:'Space Mono',monospace;
+    font-size:13px;letter-spacing:0.06em;text-transform:uppercase;
+    padding:14px 24px;
+    border-radius:2px;
+    border:1px solid var(--ember);
+    transition:all 0.2s ease;
+    display:inline-block;
+  }
+  .btn-fill{background:var(--ember);color:var(--void);}
+  .btn-fill:hover{background:var(--ember-deep);border-color:var(--ember-deep);}
+  .btn-outline{color:var(--ash);border-color:var(--line);}
+  .btn-outline:hover{border-color:var(--ember);color:var(--ember);}
+
+  main{padding:110px 0 20px;}
+  section{padding:40px 0 50px;}
+  section .wrap{border-top:1px solid var(--line);padding-top:50px;}
+  main > section:first-of-type .wrap{border-top:none;padding-top:0;}
+
+  .section-head{margin-bottom:36px;max-width:560px;}
+  .section-head h1,
+  .section-head h2{font-size:clamp(1.7rem,3.4vw,2.3rem);margin-top:8px;}
+  .section-head p{color:var(--ash-dim);margin-top:12px;}
+
+  .thanks-banner{
+    background:var(--fog2);
+    border:1px solid var(--line);
+    border-left:3px solid var(--ember);
+    padding:14px 20px;
+    margin:0 0 32px;
+    font-size:16px;
+  }
+
+  .product-card{
+    display:grid;
+    grid-template-columns:minmax(0,380px) 1fr;
+    gap:36px;
+    align-items:center;
+    background:var(--fog2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:28px;
+  }
+  .product-card img{
+    width:100%;
+    height:auto;
+    aspect-ratio:1;
+    object-fit:cover;
+    border-radius:4px;
+    border:1px solid var(--line);
+    display:block;
+    background:var(--fog);
+  }
+  .product-card h2{font-size:clamp(1.6rem,3vw,2rem);margin-bottom:6px;}
+  .product-card .price{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:28px;
+    color:var(--ember);
+    margin-bottom:14px;
+  }
+  .product-meta{
+    display:flex;gap:8px;flex-wrap:wrap;
+    margin-bottom:16px;
+  }
+  .chip{
+    font-family:'Space Mono',monospace;
+    font-size:11px;letter-spacing:0.03em;
+    color:var(--ash-dim);
+    border:1px solid var(--line);
+    padding:4px 10px;border-radius:999px;
+  }
+  .product-card .desc{color:var(--ash-dim);margin-bottom:24px;max-width:440px;}
+  @media(max-width:700px){
+    .product-card{grid-template-columns:1fr;padding:20px;gap:22px;}
+    .product-card .btn{width:100%;text-align:center;}
+    .wrap{padding:0 20px;}
+    .nav{padding:18px 20px;}
+  }
+
+  .vip-panel{
+    background:var(--fog2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:40px;
+  }
+  .vip-panel h2{margin:8px 0 14px;}
+  .vip-panel p{color:var(--ash-dim);max-width:560px;margin-bottom:16px;}
+  .vip-panel .note{font-size:15px;margin-top:20px;margin-bottom:0;}
+  .vip-panel .note a{color:var(--ember);text-decoration:underline;text-underline-offset:3px;}
+  .vip-panel .note a:hover{color:var(--ash);}
+  @media(max-width:640px){.vip-panel{padding:28px 20px;}}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:44px 0 60px;
+  }
+  .foot-row{
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:18px;
+  }
+  .foot-links{
+    display:flex;gap:18px;flex-wrap:wrap;
+    font-family:'Space Mono',monospace;
+    font-size:12px;letter-spacing:0.05em;text-transform:uppercase;
+    color:var(--ash-dim);
+  }
+  .foot-links a:hover{color:var(--ember);}
+  .foot-note{font-family:'Space Mono',monospace;font-size:11px;color:var(--ash-dim);opacity:0.6;margin-top:20px;}
+</style>
 </head>
 <body>
 
 <header>
-  <h1>Store</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="music.html">Music</a>
-    <a href="videos.html">Videos</a>
-    <a href="community.html">Community</a>
-    <a href="vip.html">VIP</a>
-    <a href="store.html">Store</a>
-    <a href="login.html">VIP Access</a>
-  </nav>
+  <div class="nav">
+    <a class="brand" href="index.html">Cinder<em>Beats</em></a>
+    <nav class="navlinks">
+      <a href="index.html#music">Music</a>
+      <a href="index.html#videos">Videos</a>
+      <a href="index.html#community">Community</a>
+      <a href="index.html#support">Support</a>
+      <a href="store.html" aria-current="page">Store</a>
+    </nav>
+  </div>
 </header>
 
 <main>
-  <h2>VIP Shop</h2>
-  <p>
-    VIP-only items and perks are currently managed inside Discord for verified VIP members.
-  </p>
+  <section id="shop" class="shop">
+    <div class="wrap">
+      <div id="order-thanks" class="thanks-banner" hidden>Thanks for your order! You'll get a confirmation email from Square.</div>
+      <div class="section-head">
+        <div class="eyebrow">Shop</div>
+        <h1>From the campfire</h1>
+        <p>A little something picked by Cinder, packed and shipped to you.</p>
+      </div>
 
-  <p>
-    <a href="https://discord.com/invite/2YxYYktH9E" target="_blank" rel="noopener">Open Discord</a>
-  </p>
+      <article class="product-card">
+        <img src="img/mystery-box.jpg" alt="A wrapped CinderBeats Mystery Box" width="800" height="800">
+        <div class="product-body">
+          <h2>Mystery Box</h2>
+          <p class="price">$1.00</p>
+          <div class="product-meta">
+            <span class="chip">Free shipping</span>
+            <span class="chip">Only 1 available</span>
+          </div>
+          <p class="desc">A CinderBeats surprise! Each Mystery Box has 1 guaranteed surprise item picked by Cinder. Ships within 3 business days.</p>
+          <a class="btn btn-fill" href="https://square.link/u/fl4I5pWC" target="_blank" rel="noopener">Buy now</a>
+        </div>
+      </article>
+    </div>
+  </section>
 
-  <p class="note">
-    If you just joined VIP, follow the steps on the <a href="login.html">VIP Access</a> page to get verified.
-  </p>
-
-  <hr>
-
-  <h2>Merch & Digital Items</h2>
-  <p>
-    This section will become the public storefront (Stripe checkout) for merch and digital drops.
-  </p>
-
-  <p class="note">Coming soon.</p>
+  <section id="vip">
+    <div class="wrap">
+      <div class="vip-panel">
+        <div class="eyebrow">Members</div>
+        <h2>VIP Shop</h2>
+        <p>VIP-only items and perks are currently managed inside Discord for verified VIP members.</p>
+        <a class="btn btn-outline" href="https://discord.com/invite/2YxYYktH9E" target="_blank" rel="noopener">Open Discord</a>
+        <p class="note">If you just joined VIP, follow the steps on the <a href="login.html">VIP Access</a> page to get verified.</p>
+      </div>
+    </div>
+  </section>
 </main>
 
-<footer class="site-footer">
-  <hr>
-  <h3>Find Cinder Beats</h3>
-
-  <div class="social-links" style="display:flex; flex-wrap:wrap; gap:12px; align-items:center;">
-    <a href="https://twitch.tv/CinderBeats" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2h18v12l-6 6h-5l-3 3H6v-3H4V2zm2 2v14h2v3l3-3h6l4-4V4H6zm11 3v5h-2V7h2zm-5 0v5h-2V7h2z"></path></svg>
-      <span>Twitch</span>
-    </a>
-
-    <a href="https://www.youtube.com/@CinderBeats" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.6 12 4.6 12 4.6s-5.7 0-7.5.5a3 3 0 0 0-2.1 2.1A31.6 31.6 0 0 0 2 12a31.6 31.6 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.8.5 7.5.5 7.5.5s5.7 0 7.5-.5a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 22 12a31.6 31.6 0 0 0-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"></path></svg>
-      <span>YouTube</span>
-    </a>
-
-    <a href="https://open.spotify.com/artist/2ATdQIPi5VFweWSLgd8oRh?si=e9KLLW-pQYi5Hf0CnfnSUg" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.6 14.5a.8.8 0 0 1-1.1.3c-3-1.8-6.8-2.2-11.1-1.2a.8.8 0 0 1-.4-1.6c4.7-1.1 8.9-.6 12.3 1.4.4.3.5.8.3 1.1zm1.1-2.6a1 1 0 0 1-1.4.3c-3.4-2-8.6-2.6-12.6-1.4a1 1 0 1 1-.6-1.9c4.6-1.4 10.3-.7 14.2 1.6.5.3.6 1 .4 1.4zm.1-2.8c-4-2.4-10.6-2.6-14.4-1.4a1.2 1.2 0 0 1-.7-2.3c4.4-1.3 11.7-1 16.4 1.7a1.2 1.2 0 1 1-1.3 2z"></path></svg>
-      <span>Spotify</span>
-    </a>
-
-    <a href="https://discord.com/invite/2YxYYktH9E" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4a16 16 0 0 0-4-1l-.5 1a13 13 0 0 0-3-.4 13 13 0 0 0-3 .4L9 3a16 16 0 0 0-4 1C3.4 6.6 2.7 9.2 3 11.8A16 16 0 0 0 8 19l1.3-1.6a10 10 0 0 1-1.6-.8l.4-.3a12 12 0 0 0 8 0l.4.3c-.5.3-1 .6-1.6.8L16 19a16 16 0 0 0 5-7.2c.3-2.6-.4-5.2-1-7.8zM9.3 13.5c-.7 0-1.2-.7-1.2-1.5s.5-1.5 1.2-1.5 1.2.7 1.2 1.5-.5 1.5-1.2 1.5zm5.4 0c-.7 0-1.2-.7-1.2-1.5s.5-1.5 1.2-1.5 1.2.7 1.2 1.5-.5 1.5-1.2 1.5z"></path></svg>
-      <span>Discord</span>
-    </a>
-
-    <a href="https://www.instagram.com/cinderbeatsttv" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.5-.9a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path></svg>
-      <span>Instagram</span>
-    </a>
-
-    <a href="https://x.com/CinderBeats" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23 22h-6.3l-5-6.2L6.3 22H3l7.3-8.4L1 2h6.5l4.6 5.6L18.9 2zm-1.1 18h1.8L6.9 3.9H5L17.8 20z"></path></svg>
-      <span>X</span>
-    </a>
-
-    <a href="https://www.facebook.com/cinderbeats" target="_blank" rel="noopener" style="display:inline-flex; gap:8px; align-items:center; text-decoration:none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 22v-8h3l1-4h-4V7.5c0-1 .3-1.5 1.6-1.5H17V2.1c-.7-.1-2-.1-3.4-.1C10.9 2 9 3.6 9 6.9V10H6v4h3v8h4z"></path></svg>
-      <span>Facebook</span>
-    </a>
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="brand" style="font-size:16px;">Cinder<em>Beats</em></div>
+      <div class="foot-links">
+        <a href="https://twitch.tv/CinderBeats" target="_blank" rel="noopener">Twitch</a>
+        <a href="https://www.youtube.com/@CinderBeats" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://open.spotify.com/artist/2ATdQIPi5VFweWSLgd8oRh" target="_blank" rel="noopener">Spotify</a>
+        <a href="https://discord.com/invite/2YxYYktH9E" target="_blank" rel="noopener">Discord</a>
+        <a href="https://www.instagram.com/cinderbeatsttv" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://x.com/CinderBeats" target="_blank" rel="noopener">X</a>
+        <a href="https://www.facebook.com/cinderbeats" target="_blank" rel="noopener">Facebook</a>
+      </div>
+    </div>
+    <div class="foot-note">&copy; 2026 CinderBeats. Kindness is the whole point.</div>
   </div>
 </footer>
 
+<script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('order') === 'thanks') {
+      var el = document.getElementById('order-thanks');
+      if (el) el.hidden = false;
+    }
+  })();
+</script>
 <script data-goatcounter="https://cinderbeats.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
